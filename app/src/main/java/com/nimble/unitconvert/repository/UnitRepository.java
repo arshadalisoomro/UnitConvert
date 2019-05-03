@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import com.nimble.unitconvert.dao.UnitDao;
-import com.nimble.unitconvert.db.UnitDatabase;
+import com.nimble.unitconvert.db.UnitConverterDatabase;
 import com.nimble.unitconvert.model.Unit;
 
 import java.util.List;
@@ -18,13 +18,13 @@ public class UnitRepository implements UnitDao {
     private LiveData<List<Unit>> allUnits;
 
     public UnitRepository(Application application){
-        UnitDatabase database = UnitDatabase.getInstance(application);
+        UnitConverterDatabase database = UnitConverterDatabase.getInstance(application);
         unitDao = database.unitDao();
         allUnits = unitDao.getAllUnits();
     }
 
     @Override
-    public void insertUnit(Unit unit) {
+    public void insert(Unit unit) {
         new InsertUnitAsyncTask(unitDao).execute(unit);
     }
 
@@ -44,12 +44,12 @@ public class UnitRepository implements UnitDao {
     }
 
     @Override
-    public void updateUnit(Unit unit) {
+    public void update(Unit unit) {
         new UpdateUnitAsyncTask(unitDao).execute(unit);
     }
 
     @Override
-    public void deleteUnit(Unit unit) {
+    public void delete(Unit unit) {
         new DeleteUnitAsyncTask(unitDao).execute(unit);
     }
 
@@ -115,7 +115,7 @@ public class UnitRepository implements UnitDao {
 
         @Override
         protected Void doInBackground(Unit... units) {
-            unitDao.insertUnit(units[0]);
+            unitDao.insert(units[0]);
             return null;
         }
     }
@@ -130,7 +130,7 @@ public class UnitRepository implements UnitDao {
 
         @Override
         protected Void doInBackground(Unit... units) {
-            unitDao.updateUnit(units[0]);
+            unitDao.update(units[0]);
             return null;
         }
     }
@@ -145,7 +145,7 @@ public class UnitRepository implements UnitDao {
 
         @Override
         protected Void doInBackground(Unit... units) {
-            unitDao.deleteUnit(units[0]);
+            unitDao.delete(units[0]);
             return null;
         }
     }

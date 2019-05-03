@@ -12,19 +12,10 @@ import com.nimble.unitconvert.model.Unit;
 import java.util.List;
 
 @Dao
-public interface UnitDao {
-
-    @Insert
-    void insertUnit(Unit unit);
+public interface UnitDao extends BaseDao<Unit>{
 
     @Query("SELECT * FROM unit_table WHERE id = :unitId")
     Unit getUnitById(long unitId);
-
-    @Update
-    void updateUnit(Unit unit);
-
-    @Delete
-    void deleteUnit(Unit unit);
 
     @Query("DELETE FROM unit_table")
     void deleteAllUnits();
@@ -34,7 +25,5 @@ public interface UnitDao {
 
     @Query("SELECT unit_rate FROM unit_table WHERE unit_name = :unitName")
     double getUnitRateByUnitName(String unitName);
-
-
 
 }
