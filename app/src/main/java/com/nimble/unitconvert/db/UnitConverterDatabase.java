@@ -71,13 +71,14 @@ public abstract class UnitConverterDatabase extends RoomDatabase {
             unitDao.insert(new Unit("Celsius 3", 32.0, catRowId));
             unitDao.insert(new Unit("Celsius 4", 32.0, catRowId));
 
+            catRowId = categoryDao.insert(new Category("Temperature"));
+
+            unitDao.insert(new Unit("Celsius 10", 32.0, catRowId));
+            unitDao.insert(new Unit("Celsius 20", 32.0, catRowId));
+            unitDao.insert(new Unit("Celsius 30", 32.0, catRowId));
+            unitDao.insert(new Unit("Celsius 40", 32.0, catRowId));
+
             Log.e(TAG, "Inserted Category id = " + catRowId);
-
-            Category category = categoryDao.getCategoryById(catRowId);
-
-//            for (Unit unit: category.getUnits()) {
-//                Log.e(TAG, "Selected Unit id = " + unit.getUnitName());
-//            }
 
             return null;
         }

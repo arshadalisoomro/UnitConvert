@@ -15,12 +15,12 @@ import java.util.concurrent.ExecutionException;
 public class UnitRepository implements UnitDao {
 
     private UnitDao unitDao;
-    private LiveData<List<Unit>> allUnits;
+    //private LiveData<List<Unit>> allUnits;
 
-    public UnitRepository(Application application){
+    public UnitRepository(Application application/*, long catId*/){
         UnitConverterDatabase database = UnitConverterDatabase.getInstance(application);
         unitDao = database.unitDao();
-        allUnits = unitDao.getAllUnits();
+        //allUnits = unitDao.getAllUnits(catId);
     }
 
     @Override
@@ -70,8 +70,17 @@ public class UnitRepository implements UnitDao {
     }
 
     @Override
-    public LiveData<List<Unit>> getAllUnits() {
-        return allUnits;
+    public LiveData<List<Unit>> getAllUnits(long catId) {
+        LiveData<List<Unit>> allUnitsByCatId = null;
+        try {
+            allUnitsByCatId = new SelectUnitListByCategoryId(unitDao).execute(catId).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return allUnitsByCatId;
     }
 
     @Override
@@ -86,6 +95,20 @@ public class UnitRepository implements UnitDao {
         }
 
         return unitRate;
+    }
+
+    private static class SelectUnitListByCategoryId extends AsyncTask<Long, Void, LiveData<List<Unit>>>{
+
+        private UnitDao unitDao;
+
+        private SelectUnitListByCategoryId(UnitDao unitDao){
+            this.unitDao = unitDao;
+        }
+
+        @Override
+        protected LiveData<List<Unit>> doInBackground(Long... longs) {
+            return unitDao.getAllUnits(longs[0]);
+        }
     }
 
     private static class SelectUnitRateAsyncTask extends AsyncTask<String, Void, Double>{

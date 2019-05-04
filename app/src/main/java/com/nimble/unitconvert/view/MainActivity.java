@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.nimble.unitconvert.R;
@@ -40,15 +41,22 @@ public class MainActivity extends AppCompatActivity {
                 .observe(MainActivity.this, new Observer<List<Category>>() {
                     @Override
                     public void onChanged(List<Category> categories) {
-                        //Update adapter
-                    }
-                });
+                        for (Category category : categories){
+                            Log.e("MAIN", "Category Name is : " + category.getCategoryName());
 
-        mUnitViewModel.getAll()
-                .observe(MainActivity.this, new Observer<List<Unit>>() {
-                    @Override
-                    public void onChanged(List<Unit> unitList) {
-                        //Update adapter
+                            // call all units with catId
+                            mUnitViewModel.getAll(category.getId())
+                                    .observe(MainActivity.this, new Observer<List<Unit>>() {
+                                        @Override
+                                        public void onChanged(List<Unit> unitList) {
+                                            //Update adapter
+                                            for (Unit unit : unitList){
+                                                Log.e("MAIN", "Unit Name is : " + unit.getUnitName() + " and Cate_id is : " + unit.getCategoryId());
+                                            }
+                                        }
+                                    });
+
+                        }
                     }
                 });
 
