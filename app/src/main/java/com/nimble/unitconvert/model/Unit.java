@@ -7,11 +7,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import lombok.Data;
-
-@Data
 @Entity(tableName = "unit_table",
-        primaryKeys = {"category_id"},
         //For speeding up queries
         indices = {@Index("category_id")},
         foreignKeys = @ForeignKey(entity = Category.class, parentColumns = "id", childColumns = "category_id" ))
@@ -35,6 +31,35 @@ public class Unit {
         this.categoryId = categoryId;
     }
 
+    public long getId() {
+        return id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public double getUnitRate() {
+        return unitRate;
+    }
+
+    public void setUnitRate(double unitRate) {
+        this.unitRate = unitRate;
+    }
+
+    public long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
+    }
 }

@@ -24,8 +24,19 @@ public class UnitRepository implements UnitDao {
     }
 
     @Override
-    public void insert(Unit unit) {
-        new InsertUnitAsyncTask(unitDao).execute(unit);
+    public long insert(Unit unit) {
+        long lastInsertedUnit = 0;
+
+        try {
+            lastInsertedUnit = new InsertUnitAsyncTask(unitDao).execute(unit).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return lastInsertedUnit;
+
     }
 
     @Override
@@ -105,7 +116,7 @@ public class UnitRepository implements UnitDao {
         }
     }
 
-    private static class InsertUnitAsyncTask extends AsyncTask<Unit, Void, Void>{
+    private static class InsertUnitAsyncTask extends AsyncTask<Unit, Void, Long>{
 
         private UnitDao unitDao;
 
@@ -114,9 +125,8 @@ public class UnitRepository implements UnitDao {
         }
 
         @Override
-        protected Void doInBackground(Unit... units) {
-            unitDao.insert(units[0]);
-            return null;
+        protected Long doInBackground(Unit... units) {
+            return unitDao.insert(units[0]);
         }
     }
 

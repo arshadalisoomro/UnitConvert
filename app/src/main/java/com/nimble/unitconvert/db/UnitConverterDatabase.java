@@ -2,6 +2,7 @@ package com.nimble.unitconvert.db;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -14,8 +15,10 @@ import com.nimble.unitconvert.dao.UnitDao;
 import com.nimble.unitconvert.model.Category;
 import com.nimble.unitconvert.model.Unit;
 
-@Database(entities = {Unit.class}, version = 1)
+@Database(entities = {Category.class, Unit.class}, version = 1)
 public abstract class UnitConverterDatabase extends RoomDatabase {
+
+    private static final String TAG = UnitConverterDatabase.class.getSimpleName();
 
     private static UnitConverterDatabase instance;
 
@@ -24,6 +27,8 @@ public abstract class UnitConverterDatabase extends RoomDatabase {
     public abstract UnitDao unitDao();
 
     public static synchronized UnitConverterDatabase getInstance(Context context){
+
+        Log.e(TAG, "Initiated...");
 
         if (instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
@@ -59,9 +64,21 @@ public abstract class UnitConverterDatabase extends RoomDatabase {
         protected Void doInBackground(Void... voids) {
 
             //Insert Categories first
-            categoryDao.insert(new Category("Length"));
+            long catRowId = categoryDao.insert(new Category("Length"));
 
-            //unitDao.insert(new Unit("Celsius", 32.0));
+            unitDao.insert(new Unit("Celsius 1", 32.0, catRowId));
+            unitDao.insert(new Unit("Celsius 2", 32.0, catRowId));
+            unitDao.insert(new Unit("Celsius 3", 32.0, catRowId));
+            unitDao.insert(new Unit("Celsius 4", 32.0, catRowId));
+
+            Log.e(TAG, "Inserted Category id = " + catRowId);
+
+            Category category = categoryDao.getCategoryById(catRowId);
+
+            for (Unit unit: category.getUnits()) {
+                Log.e(TAG, "Selected Unit id = " + unit.getUnitName());
+            }
+
             return null;
         }
     }
