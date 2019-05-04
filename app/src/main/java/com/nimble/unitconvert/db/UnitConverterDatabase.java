@@ -75,9 +75,9 @@ public abstract class UnitConverterDatabase extends RoomDatabase {
 
             Category category = categoryDao.getCategoryById(catRowId);
 
-            for (Unit unit: category.getUnits()) {
-                Log.e(TAG, "Selected Unit id = " + unit.getUnitName());
-            }
+//            for (Unit unit: category.getUnits()) {
+//                Log.e(TAG, "Selected Unit id = " + unit.getUnitName());
+//            }
 
             return null;
         }

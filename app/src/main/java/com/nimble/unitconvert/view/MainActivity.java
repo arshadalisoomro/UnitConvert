@@ -5,7 +5,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.nimble.unitconvert.R;
 import com.nimble.unitconvert.db.UnitConverterDatabase;
@@ -16,6 +18,9 @@ import com.nimble.unitconvert.view.model.UnitViewModel;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
     private CategoryViewModel mCategoryViewModel;
@@ -25,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(MainActivity.this);
 
         mCategoryViewModel = ViewModelProviders.of(MainActivity.this).get(CategoryViewModel.class);
         mUnitViewModel = ViewModelProviders.of(MainActivity.this).get(UnitViewModel.class);
@@ -44,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
                         //Update adapter
                     }
                 });
+
+        Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/eau_sans_book.ttf");
+        //textView.setTypeface(tf);
 
     }
 }
