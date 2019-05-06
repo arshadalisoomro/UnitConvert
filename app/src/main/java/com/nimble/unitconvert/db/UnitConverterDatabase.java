@@ -15,6 +15,11 @@ import com.nimble.unitconvert.dao.UnitDao;
 import com.nimble.unitconvert.model.Category;
 import com.nimble.unitconvert.model.Unit;
 
+import static com.nimble.unitconvert.util.Constant.Acceleration.*;
+import static com.nimble.unitconvert.util.Constant.Angle.*;
+import static com.nimble.unitconvert.util.Constant.Area.*;
+import static com.nimble.unitconvert.util.Constant.Data.*;
+
 @Database(entities = {Category.class, Unit.class}, version = 1)
 public abstract class UnitConverterDatabase extends RoomDatabase {
 
@@ -63,25 +68,74 @@ public abstract class UnitConverterDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
 
-            //Insert Categories first
-            long catRowId = categoryDao.insert(new Category("Length"));
-
-            unitDao.insert(new Unit("Celsius 1", 32.0, catRowId));
-            unitDao.insert(new Unit("Celsius 2", 32.0, catRowId));
-            unitDao.insert(new Unit("Celsius 3", 32.0, catRowId));
-            unitDao.insert(new Unit("Celsius 4", 32.0, catRowId));
-
-            catRowId = categoryDao.insert(new Category("Temperature"));
-
-            unitDao.insert(new Unit("Celsius 10", 32.0, catRowId));
-            unitDao.insert(new Unit("Celsius 20", 32.0, catRowId));
-            unitDao.insert(new Unit("Celsius 30", 32.0, catRowId));
-            unitDao.insert(new Unit("Celsius 40", 32.0, catRowId));
-
-            Log.e(TAG, "Inserted Category id = " + catRowId);
+            //Insert Categories and Units
+            insertAcceleration(categoryDao, unitDao);
+            insertAngle(categoryDao, unitDao);
+            insertArea(categoryDao, unitDao);
+            insertData(categoryDao, unitDao);
 
             return null;
         }
     }
+
+    private static void insertAcceleration(CategoryDao categoryDao, UnitDao unitDao){
+        long catRowId = categoryDao.insert(new Category(CATEGORY_ACCELERATION));
+
+        unitDao.insert(new Unit(UNIT_METER_PER_SQUARE_SECOND, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_INCH_PER_SQUARE_SECOND, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_GRAVITY, 0.0, catRowId));
+
+    }
+
+    private static void insertAngle(CategoryDao categoryDao, UnitDao unitDao){
+        long catRowId = categoryDao.insert(new Category(CATEGORY_ANGLE));
+
+        unitDao.insert(new Unit(UNIT_DEGREE, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_RADIAN, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_GRAD, 0.0, catRowId));
+
+    }
+
+    private static void insertArea(CategoryDao categoryDao, UnitDao unitDao){
+        long catRowId = categoryDao.insert(new Category(CATEGORY_AREA));
+
+        unitDao.insert(new Unit(UNIT_SQUARE_KILOMETER, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_SQUARE_METER, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_SQUARE_CENTIMETER, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_SQUARE_MILLIMETER, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_SQUARE_MICROMETER, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_SQUARE_NANOMETER, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_SQUARE_ANGSTROM, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_SQUARE_PICO_METER, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_SQUARE_FEMTO_METER, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_SQUARE_INCH, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_SQUARE_FOOT, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_HECTARE, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_ACRE, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_ARES, 0.0, catRowId));
+
+    }
+
+    private static void insertData(CategoryDao categoryDao, UnitDao unitDao){
+        long catRowId = categoryDao.insert(new Category(CATEGORY_DATA));
+
+        unitDao.insert(new Unit(UNIT_BIT, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_KILO_BIT, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_MEGA_BIT, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_GIGA_BIT, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_TERA_BIT, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_BYTE, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_KILO_BYTE, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_MEGA_BYTE, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_GIGA_BYTE, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_TERA_BYTE, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_PETA_BYTE, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_EXA_BYTE, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_ZETTA_BYTE, 0.0, catRowId));
+        unitDao.insert(new Unit(UNIT_YOTTA_BYTE, 0.0, catRowId));
+
+    }
+
+
 
 }
