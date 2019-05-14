@@ -1,6 +1,7 @@
 package com.nimble.unitconvert.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -14,6 +15,7 @@ import com.nimble.unitconvert.R;
 import com.nimble.unitconvert.db.UnitConverterDatabase;
 import com.nimble.unitconvert.model.Category;
 import com.nimble.unitconvert.model.Unit;
+import com.nimble.unitconvert.view.adapter.CategoryAdapter;
 import com.nimble.unitconvert.view.model.CategoryViewModel;
 import com.nimble.unitconvert.view.model.UnitViewModel;
 
@@ -26,6 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
     private CategoryViewModel mCategoryViewModel;
     private UnitViewModel mUnitViewModel;
+
+    @BindView(R.id.spn_category)
+    AppCompatSpinner mCategorySpinner;
+
+    //int categoryIcon[] = {};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +48,14 @@ public class MainActivity extends AppCompatActivity {
                 .observe(MainActivity.this, new Observer<List<Category>>() {
                     @Override
                     public void onChanged(List<Category> categories) {
+                        //Set Category Adapter
+                        CategoryAdapter categoryAdapter = new CategoryAdapter(MainActivity.this, categories);
+                        mCategorySpinner.setAdapter(categoryAdapter);
+
                         for (Category category : categories){
                             Log.e("MAIN", "Category Name is : " + category.getCategoryName());
+
+
 
                             // call all units with catId
                             mUnitViewModel.getAll(category.getId())
